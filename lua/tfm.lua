@@ -167,7 +167,7 @@ local function open_win()
     local row = math.ceil((vim.o.lines - win_height) * opts.ui.y - 1)
     local col = math.ceil((vim.o.columns - win_width) * opts.ui.x)
 
-    vim.api.nvim_open_win(buf, true, {
+    local win = vim.api.nvim_open_win(buf, true, {
         relative = "editor",
         width = win_width,
         height = win_height,
@@ -176,7 +176,7 @@ local function open_win()
         col = col,
         style = "minimal",
     })
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "" })
+    vim.api.nvim_win_set_option(win, "winhl", "NormalFloat:Normal")
     vim.api.nvim_buf_set_option(buf, "filetype", "tfm")
 
     -- Apply custom keybinds
