@@ -56,7 +56,7 @@ The below example configurations are given for [lazy.nvim](https://github.com/fo
     lazy = false,
     opts = {
         -- TFM to use
-        -- Possible choices: "ranger" | "nnn" | "lf" | "yazi" (default)
+        -- Possible choices: "ranger" | "nnn" | "lf" | "vifm" | "yazi" (default)
         file_manager = "yazi",
         -- Replace netrw entirely
         -- Default: false
