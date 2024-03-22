@@ -302,6 +302,9 @@ function M.open(path_to_open, open_mode)
                 return
             end
 
+            -- get buffer vars before closing the terminal window
+            open_mode = vim.b.tfm_next_open_mode or open_mode
+
             vim.api.nvim_win_close(0, true)
             vim.api.nvim_set_current_win(last_win)
 
@@ -326,6 +329,14 @@ M.select_file_manager = function(file_manager)
     )
 
     opts.file_manager = file_manager
+end
+
+---Change next open mode
+---Can be called by the user when on the terminal buffer to control how to
+---open the next file
+---@param open_mode OPEN_MODE|nil Open the next file(s) using a specific mode, e.g. "split", "vsplit", "tabedit"
+function M.next_open_mode(open_mode)
+    vim.b.tfm_next_open_mode = open_mode
 end
 
 ---Optional setup to configure tfm.nvim.
