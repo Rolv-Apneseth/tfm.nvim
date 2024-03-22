@@ -1,6 +1,5 @@
 local PATH_CACHE = vim.fn.stdpath("cache")
 local PATH_SELECTED_FILES = PATH_CACHE .. "/tfm_selected_files"
-local PATH_MODE_FILE = PATH_CACHE .. "/tfm_mode"
 
 local M = {}
 
@@ -215,7 +214,6 @@ end
 ---Clean up temporary files used to communicate between the terminal file manager and the plugin
 local function clean_up()
     vim.fn.delete(PATH_SELECTED_FILES)
-    vim.fn.delete(PATH_MODE_FILE)
 end
 
 ---Disable and replace netrw
