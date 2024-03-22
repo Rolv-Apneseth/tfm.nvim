@@ -72,7 +72,12 @@ The below example configurations are given for [lazy.nvim](https://github.com/fo
         -- Custom keybindings only applied within the TFM buffer
         -- Default: {}
         keybindings = {
-            ["<ESC>"] = "q"
+            ["<ESC>"] = "q",
+            -- override the open mode (i.e. vertical/horizontal split, new tab)
+            -- and open the selected files
+            ["<C-v>"] = "<C-\\><C-O>:lua require('tfm').next_open_mode(require('tfm').OPEN_MODE.vsplit)<CR><CR>",
+            ["<C-x>"] = "<C-\\><C-O>:lua require('tfm').next_open_mode(require('tfm').OPEN_MODE.split)<CR><CR>",
+            ["<C-t>"] = "<C-\\><C-O>:lua require('tfm').next_open_mode(require('tfm').OPEN_MODE.tabedit)<CR><CR>",
         },
         -- Customise UI. The below options are the default
         ui = {
