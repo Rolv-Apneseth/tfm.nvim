@@ -208,14 +208,7 @@ If you don't want to enable the commands, you can just use pure Lua keybindings:
 ```lua
 {
     "<leader>mc",
-    function()
-        local tfm = require("tfm")
-        local selected_tfm = vim.fn.input("Change file manager: ")
-
-        if selected_tfm ~= "" and tfm.FILE_MANAGERS[selected_tfm] ~= nil then
-            tfm.select_file_manager(selected_tfm)
-        end
-    end,
+    ":lua require('tfm').select_file_manager(vim.fn.input('Change file manager: '))<CR>",
     desc = "TFM - change selected file manager",
 },
 ```
