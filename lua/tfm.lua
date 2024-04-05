@@ -5,7 +5,7 @@ local M = {}
 
 ---@class FileManager
 ---@field cmd string command name
----@field set_file_chooser_ouput string flag to set the chosen files output file
+---@field set_file_chooser_output string flag to set the chosen files output file
 ---@field set_focused_file string flag to set the focused file
 
 ---Configurable user options.
@@ -36,27 +36,27 @@ M.OPEN_MODE = {
 M.FILE_MANAGERS = {
     ranger = {
         cmd = "ranger",
-        set_file_chooser_ouput = "--choosefiles",
+        set_file_chooser_output = "--choosefiles",
         set_focused_file = "--selectfile",
     },
     nnn = {
         cmd = "nnn",
-        set_file_chooser_ouput = "-p",
+        set_file_chooser_output = "-p",
         set_focused_file = "",
     },
     lf = {
         cmd = "lf",
-        set_file_chooser_ouput = "-selection-path",
+        set_file_chooser_output = "-selection-path",
         set_focused_file = "",
     },
     yazi = {
         cmd = "yazi",
-        set_file_chooser_ouput = "--chooser-file",
+        set_file_chooser_output = "--chooser-file",
         set_focused_file = "",
     },
     vifm = {
         cmd = "vifm",
-        set_file_chooser_ouput = "--choose-files",
+        set_file_chooser_output = "--choose-files",
         set_focused_file = "--select",
     },
 }
@@ -125,11 +125,8 @@ end
 ---@return string
 local function build_tfm_cmd(selected_manager, path_to_open)
     -- FILE CHOOSER MODE
-    local arg_file_chooser = string.format(
-        "%s %s",
-        selected_manager.set_file_chooser_ouput,
-        PATH_SELECTED_FILES
-    )
+    local arg_file_chooser =
+        string.format("%s %s", selected_manager.set_file_chooser_output, PATH_SELECTED_FILES)
 
     -- FILE TO BE FOCUSED
     -- Take the given path or fallback to the current file
@@ -146,8 +143,7 @@ local function build_tfm_cmd(selected_manager, path_to_open)
         file_to_focus = string.format('"%s"', file_to_focus)
     end
 
-    local arg_focus_file =
-        string.format("%s %s", selected_manager.set_focused_file, file_to_focus)
+    local arg_focus_file = string.format("%s %s", selected_manager.set_focused_file, file_to_focus)
 
     return string.format(
         "%s %s %s",
@@ -351,10 +347,7 @@ function M.setup(user_opts)
     if opts.enable_cmds then
         vim.cmd('command! Tfm lua require("tfm").open()')
         vim.cmd(
-            string.format(
-                'command! TfmSplit lua require("tfm").open(nil, "%s")',
-                M.OPEN_MODE.split
-            )
+            string.format('command! TfmSplit lua require("tfm").open(nil, "%s")', M.OPEN_MODE.split)
         )
         vim.cmd(
             string.format(
