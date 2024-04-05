@@ -145,6 +145,12 @@ Changes the selected file manager. This is not persistent so the change will be 
 
 - `file_manager` should be one of the supported TFMs listed at the top of the page
 
+### `set_next_open_mode(open_mode)`
+
+Changes the next mode with which to open/edit selected files. Can be run while the terminal window is open.
+
+- `open_mode` should be an option from the enum defined below.
+
 ### `enum OPEN_MODE`
 
 Enum to configure modes with which to open/edit selected files.
