@@ -318,7 +318,7 @@ end
 ---@param file_manager string
 M.select_file_manager = function(file_manager)
     assert(
-        M.FILE_MANAGERS[file_manager] ~= nil,
+        file_manager ~= "" and M.FILE_MANAGERS[file_manager] ~= nil,
         string.format("'%s' is not a valid option for a file_manager", file_manager)
     )
 
