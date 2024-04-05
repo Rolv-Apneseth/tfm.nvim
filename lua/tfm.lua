@@ -1,12 +1,11 @@
 local PATH_CACHE = vim.fn.stdpath("cache")
 local PATH_SELECTED_FILES = PATH_CACHE .. "/tfm_selected_files"
-local PATH_MODE_FILE = PATH_CACHE .. "/tfm_mode"
 
 local M = {}
 
 ---@class FileManager
 ---@field cmd string command name
----@field set_file_chooser_ouput string flag to set the chosen files output file
+---@field set_file_chooser_output string flag to set the chosen files output file
 ---@field set_focused_file string flag to set the focused file
 
 ---Configurable user options.
@@ -37,27 +36,27 @@ M.OPEN_MODE = {
 M.FILE_MANAGERS = {
     ranger = {
         cmd = "ranger",
-        set_file_chooser_ouput = "--choosefiles",
+        set_file_chooser_output = "--choosefiles",
         set_focused_file = "--selectfile",
     },
     nnn = {
         cmd = "nnn",
-        set_file_chooser_ouput = "-p",
+        set_file_chooser_output = "-p",
         set_focused_file = "",
     },
     lf = {
         cmd = "lf",
-        set_file_chooser_ouput = "-selection-path",
+        set_file_chooser_output = "-selection-path",
         set_focused_file = "",
     },
     yazi = {
         cmd = "yazi",
-        set_file_chooser_ouput = "--chooser-file",
+        set_file_chooser_output = "--chooser-file",
         set_focused_file = "",
     },
     vifm = {
         cmd = "vifm",
-        set_file_chooser_ouput = "--choose-files",
+        set_file_chooser_output = "--choose-files",
         set_focused_file = "--select",
     },
 }
@@ -126,11 +125,8 @@ end
 ---@return string
 local function build_tfm_cmd(selected_manager, path_to_open)
     -- FILE CHOOSER MODE
-    local arg_file_chooser = string.format(
-        "%s %s",
-        selected_manager.set_file_chooser_ouput,
-        PATH_SELECTED_FILES
-    )
+    local arg_file_chooser =
+        string.format("%s %s", selected_manager.set_file_chooser_output, PATH_SELECTED_FILES)
 
     -- FILE TO BE FOCUSED
     -- Take the given path or fallback to the current file
@@ -147,8 +143,7 @@ local function build_tfm_cmd(selected_manager, path_to_open)
         file_to_focus = string.format('"%s"', file_to_focus)
     end
 
-    local arg_focus_file =
-        string.format("%s %s", selected_manager.set_focused_file, file_to_focus)
+    local arg_focus_file = string.format("%s %s", selected_manager.set_focused_file, file_to_focus)
 
     return string.format(
         "%s %s %s",
@@ -215,7 +210,6 @@ end
 ---Clean up temporary files used to communicate between the terminal file manager and the plugin
 local function clean_up()
     vim.fn.delete(PATH_SELECTED_FILES)
-    vim.fn.delete(PATH_MODE_FILE)
 end
 
 ---Disable and replace netrw
@@ -302,6 +296,9 @@ function M.open(path_to_open, open_mode)
                 return
             end
 
+            -- get buffer vars before closing the terminal window
+            open_mode = vim.b.tfm_next_open_mode or open_mode
+
             vim.api.nvim_win_close(0, true)
             vim.api.nvim_set_current_win(last_win)
 
@@ -328,6 +325,12 @@ M.select_file_manager = function(file_manager)
     opts.file_manager = file_manager
 end
 
+---Set the next mode that selected file(s) will be opened with
+---@param open_mode OPEN_MODE|nil The next mode to open selected file(s) with
+function M.set_next_open_mode(open_mode)
+    vim.b.tfm_next_open_mode = open_mode
+end
+
 ---Optional setup to configure tfm.nvim.
 ---@param user_opts Options|nil Configurable options.
 function M.setup(user_opts)
@@ -342,10 +345,7 @@ function M.setup(user_opts)
     if opts.enable_cmds then
         vim.cmd('command! Tfm lua require("tfm").open()')
         vim.cmd(
-            string.format(
-                'command! TfmSplit lua require("tfm").open(nil, "%s")',
-                M.OPEN_MODE.split
-            )
+            string.format('command! TfmSplit lua require("tfm").open(nil, "%s")', M.OPEN_MODE.split)
         )
         vim.cmd(
             string.format(

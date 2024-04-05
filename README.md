@@ -72,7 +72,12 @@ The below example configurations are given for [lazy.nvim](https://github.com/fo
         -- Custom keybindings only applied within the TFM buffer
         -- Default: {}
         keybindings = {
-            ["<ESC>"] = "q"
+            ["<ESC>"] = "q",
+            -- Override the open mode (i.e. vertical/horizontal split, new tab)
+            -- Tip: you can add an extra `<CR>` to the end of these to immediately open the selected file(s) (assuming the TFM uses `enter` to finalise selection)
+            ["<C-v>"] = "<C-\\><C-O>:lua require('tfm').set_next_open_mode(require('tfm').OPEN_MODE.vsplit)<CR>",
+            ["<C-x>"] = "<C-\\><C-O>:lua require('tfm').set_next_open_mode(require('tfm').OPEN_MODE.split)<CR>",
+            ["<C-t>"] = "<C-\\><C-O>:lua require('tfm').set_next_open_mode(require('tfm').OPEN_MODE.tabedit)<CR>",
         },
         -- Customise UI. The below options are the default
         ui = {
@@ -94,7 +99,7 @@ The below example configurations are given for [lazy.nvim](https://github.com/fo
         {
             "<leader>mh",
             ":TfmSplit<CR>",
-            desc = "TFM - horizonal split",
+            desc = "TFM - horizontal split",
         },
         {
             "<leader>mv",
@@ -140,6 +145,12 @@ Changes the selected file manager. This is not persistent so the change will be 
 
 - `file_manager` should be one of the supported TFMs listed at the top of the page
 
+### `set_next_open_mode(open_mode)`
+
+Changes the next mode with which to open/edit selected files. Can be run while the terminal window is open.
+
+- `open_mode` should be an option from the enum defined below.
+
 ### `enum OPEN_MODE`
 
 Enum to configure modes with which to open/edit selected files.
@@ -171,7 +182,7 @@ If you don't want to enable the commands, you can just use pure Lua keybindings:
                 local tfm = require("tfm")
                 tfm.open(nil, tfm.OPEN_MODE.split)
             end,
-            desc = "TFM - horizonal split",
+            desc = "TFM - horizontal split",
         },
         {
             "<leader>mv",
@@ -213,7 +224,7 @@ If you don't want to enable the commands, you can just use pure Lua keybindings:
 
 Feel free let me know how I can improve this plugin by opening an issue. PRs are also welcome.
 
-## Acknowlegements
+## Credit
 
 - [@kelly-lin](https://github.com/kelly-lin) for writing [ranger.nvim](https://github.com/kelly-lin/ranger.nvim)
 
