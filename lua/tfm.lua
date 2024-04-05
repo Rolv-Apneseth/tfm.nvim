@@ -325,11 +325,9 @@ M.select_file_manager = function(file_manager)
     opts.file_manager = file_manager
 end
 
----Change next open mode
----Can be called by the user when on the terminal buffer to control how to
----open the next file
----@param open_mode OPEN_MODE|nil Open the next file(s) using a specific mode, e.g. "split", "vsplit", "tabedit"
-function M.next_open_mode(open_mode)
+---Set the next mode that selected file(s) will be opened with
+---@param open_mode OPEN_MODE|nil The next mode to open selected file(s) with
+function M.set_next_open_mode(open_mode)
     vim.b.tfm_next_open_mode = open_mode
 end
 
