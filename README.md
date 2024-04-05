@@ -99,7 +99,7 @@ The below example configurations are given for [lazy.nvim](https://github.com/fo
         {
             "<leader>mh",
             ":TfmSplit<CR>",
-            desc = "TFM - horizonal split",
+            desc = "TFM - horizontal split",
         },
         {
             "<leader>mv",
@@ -176,7 +176,7 @@ If you don't want to enable the commands, you can just use pure Lua keybindings:
                 local tfm = require("tfm")
                 tfm.open(nil, tfm.OPEN_MODE.split)
             end,
-            desc = "TFM - horizonal split",
+            desc = "TFM - horizontal split",
         },
         {
             "<leader>mv",
@@ -218,7 +218,7 @@ If you don't want to enable the commands, you can just use pure Lua keybindings:
 
 Feel free let me know how I can improve this plugin by opening an issue. PRs are also welcome.
 
-## Acknowlegements
+## Credit
 
 - [@kelly-lin](https://github.com/kelly-lin) for writing [ranger.nvim](https://github.com/kelly-lin/ranger.nvim)
 
