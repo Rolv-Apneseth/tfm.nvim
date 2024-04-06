@@ -2,8 +2,11 @@
 
 Neovim plugin for **T**erminal **F**ile **M**anager integration.
 
+<!-- markdownlint-disable -->
 <details>
 <summary><strong>Supported Terminal File Managers</strong></summary>
+<!-- markdownlint-enable -->
+<!-- markdownlint-disable MD013 -->
 
 - [yazi](https://github.com/sxyazi/yazi)
 - [ranger](https://github.com/ranger/ranger)
