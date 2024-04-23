@@ -26,10 +26,6 @@ With this plugin, you can simply change which TFM you wish to use (from the supp
 
 I am using this plugin full time but I don't use all the different file managers and modes available so if you find any issues please let me know and I'll do my best to address it.
 
-## Optional Dependencies
-
-- [ueberzugpp](https://github.com/jstkdng/ueberzugpp): for previewing images. Requires that your chosen file manager supports it.
-
 ## Configuration
 
 The setup function is completely optional. However, please note that by default this plugin does not set any keymaps or create any commands, so it is recommended to do so in your configuration.
@@ -165,6 +161,12 @@ Enum to configure modes with which to open/edit selected files.
 | `tabedit` | Open files in tab |
 
 ## Extras
+
+### Image previews
+
+Image previews depend entirely on the terminal emulator + TFM combo you are using, as well as Neovim's support for the protocol being used. Any issues related to image previews are probably not related to this plugin as all this is doing is opening a terminal window in Neovim and running the TFM.
+
+In the demo video, the combo being used is [Wezterm](https://github.com/wez/wezterm) + [Yazi](https://github.com/sxyazi/yazi), using [ueberzugpp](https://github.com/jstkdng/ueberzugpp).
 
 ### Pure Lua keybindings
 
