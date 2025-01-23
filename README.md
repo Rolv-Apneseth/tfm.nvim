@@ -228,10 +228,10 @@ Feel free let me know how I can improve this plugin by opening an issue. PRs are
 
 - [@kelly-lin](https://github.com/kelly-lin) for writing [ranger.nvim](https://github.com/kelly-lin/ranger.nvim)
 
-### Other similar plugins
+### Other related plugins
 
-- [yazi.nvim](https://github.com/DreamMaoMao/yazi.nvim)
 - [nnn.nvim](https://github.com/luukvbaal/nnn.nvim)
 - [lf.nvim](https://github.com/lmburns/lf.nvim)
-- [rnvimr](https://github.com/kevinhwang91/rnvimr) - for `ranger` as well, but actually uses `RPC` to communicate with it so it seems a good deal more complex than other similar plugins
+- [yazi.nvim](https://github.com/mikavilpas/yazi.nvim) - If you're set on using `Yazi`, you _probably_ want to use this plugin as it has better integration
+- [rnvimr](https://github.com/kevinhwang91/rnvimr) - For `ranger` as well, but actually uses `RPC` to communicate with it so it seems a good deal more complex than other similar plugins
 - [fm-nvim](https://github.com/is0n/fm-nvim) - Very similar to this plugin, probably wish I had found this sooner lol. Unfortunately it does not seem to be actively maintained, and does not do some of the things I really wanted this to do, namely close buffers for files that were deleted and completely replace netrw. Also `yazi` is my favourite so far and that is unsupported.
