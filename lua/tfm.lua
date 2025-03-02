@@ -171,8 +171,8 @@ local function open_win()
         col = col,
         style = "minimal",
     })
-    vim.api.nvim_win_set_option(win, "winhl", "NormalFloat:Normal")
-    vim.api.nvim_buf_set_option(buf, "filetype", "tfm")
+    vim.api.nvim_set_option_value("winhl", "NormalFloat:Normal", { win = win })
+    vim.api.nvim_set_option_value("filetype", "tfm", { buf = buf })
 
     -- Apply custom keybinds
     for keybind, command in pairs(opts.keybindings) do
