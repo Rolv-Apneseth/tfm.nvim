@@ -25,6 +25,12 @@ local M = {}
 ---@field y number from 0 to 1 (0 = top most of screen and 1 = bottom most of
 ---screen)
 
+---@class WindowDimensions
+---@field height number height of the window
+---@field width number width of the window
+---@field row number row from which to begin drawing window
+---@field col number column from which to begin drawing window
+
 ---@enum OPEN_MODE
 M.OPEN_MODE = {
     vsplit = "vsplit",
@@ -154,25 +160,51 @@ local function build_tfm_cmd(selected_manager, path_to_open)
     )
 end
 
+---Returns a table with the names of all the currently listed buffers, which point to existing filenames
+---@return WindowDimensions
+local function get_window_dimensions()
+    local win_height = math.ceil(vim.o.lines * opts.ui.height)
+    local win_width = math.ceil(vim.o.columns * opts.ui.width)
+    return {
+        height = win_height,
+        width = win_width,
+        row = math.ceil((vim.o.lines - win_height) * opts.ui.y - 1),
+        col = math.ceil((vim.o.columns - win_width) * opts.ui.x),
+    }
+end
+
 ---Open a window for the TFM to run in
 local function open_win()
     local buf = vim.api.nvim_create_buf(false, true)
-    local win_height = math.ceil(vim.o.lines * opts.ui.height)
-    local win_width = math.ceil(vim.o.columns * opts.ui.width)
-    local row = math.ceil((vim.o.lines - win_height) * opts.ui.y - 1)
-    local col = math.ceil((vim.o.columns - win_width) * opts.ui.x)
 
-    local win = vim.api.nvim_open_win(buf, true, {
-        relative = "editor",
-        width = win_width,
-        height = win_height,
-        border = opts.ui.border,
-        row = row,
-        col = col,
-        style = "minimal",
-    })
+    local win = vim.api.nvim_open_win(
+        buf,
+        true,
+        vim.tbl_extend("error", {
+            relative = "editor",
+            border = opts.ui.border,
+            style = "minimal",
+        }, get_window_dimensions())
+    )
     vim.api.nvim_set_option_value("winhl", "NormalFloat:Normal", { win = win })
     vim.api.nvim_set_option_value("filetype", "tfm", { buf = buf })
+
+    -- Resize the window when the Neovim is resized
+    local group = vim.api.nvim_create_augroup("tfm_window", { clear = true })
+    vim.api.nvim_create_autocmd("VimResized", {
+        group = group,
+        buffer = buf,
+        callback = function()
+            vim.api.nvim_win_set_config(
+                win,
+                vim.tbl_deep_extend(
+                    "force",
+                    vim.api.nvim_win_get_config(win),
+                    get_window_dimensions()
+                )
+            )
+        end,
+    })
 
     -- Apply custom keybinds
     for keybind, command in pairs(opts.keybindings) do
