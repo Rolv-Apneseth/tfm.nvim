@@ -259,11 +259,12 @@ function M.open(path_to_open, open_mode)
 
     -- Set default TFM if selected option is invalid
     if not selected_file_manager then
-        vim.api.nvim_err_writeln(
+        vim.notify(
             string.format(
-                "The executable %s is not a supported terminal file manager",
+                "The provided value of '%s' is not a supported terminal file manager",
                 opts.file_manager
-            )
+            ),
+            vim.log.levels.ERROR
         )
         selected_file_manager = M.FILE_MANAGERS.yazi
     end
@@ -289,7 +290,8 @@ function M.open(path_to_open, open_mode)
 
     open_win()
 
-    vim.fn.termopen(cmd, {
+    vim.fn.jobstart(cmd, {
+        term = true,
         on_exit = function(_, code, _)
             -- Return early if there was some error with the TFM
             if code ~= 0 then
