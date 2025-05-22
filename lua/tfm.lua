@@ -322,29 +322,39 @@ function M.open(path_to_open, open_mode)
 
     open_win()
 
-    vim.fn.jobstart(cmd, {
-        term = true,
-        on_exit = function(_, code, _)
-            -- Return early if there was some error with the TFM
-            if code ~= 0 then
-                return
-            end
+    local on_exit = function(_, code, _)
+        -- Return early if there was some error with the TFM
+        if code ~= 0 then
+            return
+        end
 
-            -- get buffer vars before closing the terminal window
-            open_mode = vim.b.tfm_next_open_mode or open_mode
+        -- get buffer vars before closing the terminal window
+        open_mode = vim.b.tfm_next_open_mode or open_mode
 
-            vim.api.nvim_win_close(0, true)
-            vim.api.nvim_set_current_win(last_win)
+        vim.api.nvim_win_close(0, true)
+        vim.api.nvim_set_current_win(last_win)
 
-            open_paths(open_mode)
+        open_paths(open_mode)
 
-            clean_up()
-            -- Close any buffers that were previously pointing to existing files, but don't
-            -- after running the TFM. This should close any buffers for files which were
-            -- deleted using the TFM.
-            close_empty_buffers(buffers_for_existing_files)
-        end,
-    })
+        clean_up()
+        -- Close any buffers that were previously pointing to existing files, but don't
+        -- after running the TFM. This should close any buffers for files which were
+        -- deleted using the TFM.
+        close_empty_buffers(buffers_for_existing_files)
+    end
+
+    if vim.fn.has("nvim-0.9") then
+        ---@diagnostic disable-next-line: deprecated
+        vim.fn.termopen(cmd, {
+            on_exit = on_exit,
+        })
+    else
+        vim.fn.jobstart(cmd, {
+            term = true,
+            on_exit = on_exit,
+        })
+    end
+
     vim.cmd.startinsert()
 end
 
