@@ -66,7 +66,7 @@ M.FILE_MANAGERS = {
         set_focused_file = "--select",
     },
     superfile = {
-        cmd = "spf"
+        cmd = "spf",
         set_file_chooser_output = "--chooser-file",
         set_focused_file = "",
     }
