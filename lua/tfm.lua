@@ -69,7 +69,7 @@ M.FILE_MANAGERS = {
         cmd = "spf",
         set_file_chooser_output = "--chooser-file",
         set_focused_file = "",
-    }
+    },
 }
 
 ---@type Options
